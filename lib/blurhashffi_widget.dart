@@ -172,35 +172,31 @@ class BlurhashBackground extends StatelessWidget {
             return errorBuilder!(ctx, snap.error!, StackTrace.current);
           }
           return SizedBox.expand(
-            child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 800),
-                child: snap.hasData
-                    ? SizedBox.expand(
-                        child: Image(
-                          image: UiImage(snap.data!),
-                          fit: fit,
-                          errorBuilder: errorBuilder,
-                        ),
-                      )
-                    : const SizedBox.shrink()
-                // firstChild: snap.hasData
-                //     ? SizedBox.expand(
-                //         child: Image(
-                //           image: UiImage(snap.data!),
-                //           fit: fit,
-                //           errorBuilder: errorBuilder,
-                //         ),
-                //       )
-                //     : const SizedBox.shrink(),
-                // secondChild: SizedBox.expand(
-                //   child: Container(
-                //     color: color,
-                //   ),
-                // ),
-                // crossFadeState: snap.hasData
-                //     ? CrossFadeState.showFirst
-                //     : CrossFadeState.showSecond,
-                ),
+            child: AnimatedCrossFade(
+              duration: const Duration(milliseconds: 1000),
+              // child: snap.hasData
+              //     ? SizedBox.expand(
+              //         child: Image(
+              //           image: UiImage(snap.data!),
+              //           fit: fit,
+              //           errorBuilder: errorBuilder,
+              //         ),
+              //       )
+              //     : const SizedBox.shrink()
+              firstChild: snap.hasData
+                  ? SizedBox.expand(
+                      child: Image(
+                        image: UiImage(snap.data!),
+                        fit: fit,
+                        errorBuilder: errorBuilder,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+              secondChild: const SizedBox.shrink(),
+              crossFadeState: snap.hasData
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+            ),
           );
         });
   }
