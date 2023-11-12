@@ -108,18 +108,24 @@ class _BlurhashFfiState extends State<BlurhashFfi> {
   }
 
   @override
-  Widget build(BuildContext context) => Stack(
-        fit: StackFit.expand,
-        alignment: Alignment.center,
-        children: [
-          BlurhashBackground(
-              image: _image,
-              color: widget.color,
-              fit: widget.imageFit,
-              errorBuilder: widget.errorBuilder),
-          if (widget.image != null) prepareDisplayedImage(widget.image!),
-        ],
-      );
+  Widget build(BuildContext context) => widget.image != null
+      ? Stack(
+          fit: StackFit.expand,
+          alignment: Alignment.center,
+          children: [
+            BlurhashBackground(
+                image: _image,
+                color: widget.color,
+                fit: widget.imageFit,
+                errorBuilder: widget.errorBuilder),
+            prepareDisplayedImage(widget.image!),
+          ],
+        )
+      : BlurhashBackground(
+          image: _image,
+          color: widget.color,
+          fit: widget.imageFit,
+          errorBuilder: widget.errorBuilder);
 
   Widget prepareDisplayedImage(String image) => Image.network(
         image,
@@ -171,16 +177,20 @@ class BlurhashBackground extends StatelessWidget {
           if (snap.hasError && errorBuilder != null) {
             return errorBuilder!(ctx, snap.error!, StackTrace.current);
           }
-          if (snap.hasData) {
-            return Image(
+          return AnimatedCrossFade(
+            duration: const Duration(milliseconds: 200),
+            firstChild: Image(
               image: UiImage(snap.data!),
               fit: fit,
               errorBuilder: errorBuilder,
-            );
-          }
-          return AnimatedContainer(
-            color: color,
-            duration: const Duration(milliseconds: 100),
+            ),
+            secondChild: AnimatedContainer(
+              color: color,
+              duration: const Duration(milliseconds: 100),
+            ),
+            crossFadeState: snap.hasData
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
           );
         });
   }
