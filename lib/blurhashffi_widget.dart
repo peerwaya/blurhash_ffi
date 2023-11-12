@@ -173,7 +173,7 @@ class BlurhashBackground extends StatelessWidget {
           }
           return SizedBox.expand(
             child: AnimatedCrossFade(
-              duration: const Duration(milliseconds: 200),
+              duration: kThemeAnimationDuration,
               firstChild: snap.hasData
                   ? SizedBox.expand(
                       child: Image(
@@ -183,9 +183,8 @@ class BlurhashBackground extends StatelessWidget {
                       ),
                     )
                   : const SizedBox.shrink(),
-              secondChild: AnimatedContainer(
+              secondChild: Container(
                 color: color,
-                duration: const Duration(milliseconds: 100),
               ),
               crossFadeState: snap.hasData
                   ? CrossFadeState.showFirst
