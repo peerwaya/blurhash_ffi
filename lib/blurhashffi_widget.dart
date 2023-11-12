@@ -183,8 +183,10 @@ class BlurhashBackground extends StatelessWidget {
                       ),
                     )
                   : const SizedBox.shrink(),
-              secondChild: Container(
-                color: color,
+              secondChild: SizedBox.expand(
+                child: Container(
+                  color: color,
+                ),
               ),
               crossFadeState: snap.hasData
                   ? CrossFadeState.showFirst
