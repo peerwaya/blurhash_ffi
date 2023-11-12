@@ -108,24 +108,18 @@ class _BlurhashFfiState extends State<BlurhashFfi> {
   }
 
   @override
-  Widget build(BuildContext context) => widget.image != null
-      ? Stack(
-          fit: StackFit.expand,
-          alignment: Alignment.center,
-          children: [
-            BlurhashBackground(
-                image: _image,
-                color: widget.color,
-                fit: widget.imageFit,
-                errorBuilder: widget.errorBuilder),
-            prepareDisplayedImage(widget.image!),
-          ],
-        )
-      : BlurhashBackground(
-          image: _image,
-          color: widget.color,
-          fit: widget.imageFit,
-          errorBuilder: widget.errorBuilder);
+  Widget build(BuildContext context) => Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.center,
+        children: [
+          BlurhashBackground(
+              image: _image,
+              color: widget.color,
+              fit: widget.imageFit,
+              errorBuilder: widget.errorBuilder),
+          if (widget.image != null) prepareDisplayedImage(widget.image!),
+        ],
+      );
 
   Widget prepareDisplayedImage(String image) => Image.network(
         image,
