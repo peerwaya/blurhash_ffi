@@ -171,22 +171,26 @@ class BlurhashBackground extends StatelessWidget {
           if (snap.hasError && errorBuilder != null) {
             return errorBuilder!(ctx, snap.error!, StackTrace.current);
           }
-          return AnimatedCrossFade(
-            duration: const Duration(milliseconds: 200),
-            firstChild: snap.hasData
-                ? Image(
-                    image: UiImage(snap.data!),
-                    fit: fit,
-                    errorBuilder: errorBuilder,
-                  )
-                : const SizedBox.shrink(),
-            secondChild: AnimatedContainer(
-              color: color,
-              duration: const Duration(milliseconds: 100),
+          return SizedBox.expand(
+            child: AnimatedCrossFade(
+              duration: const Duration(milliseconds: 200),
+              firstChild: snap.hasData
+                  ? SizedBox.expand(
+                      child: Image(
+                        image: UiImage(snap.data!),
+                        fit: fit,
+                        errorBuilder: errorBuilder,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+              secondChild: AnimatedContainer(
+                color: color,
+                duration: const Duration(milliseconds: 100),
+              ),
+              crossFadeState: snap.hasData
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
             ),
-            crossFadeState: snap.hasData
-                ? CrossFadeState.showFirst
-                : CrossFadeState.showSecond,
           );
         });
   }
