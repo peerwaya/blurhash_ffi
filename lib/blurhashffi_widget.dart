@@ -173,7 +173,7 @@ class BlurhashBackground extends StatelessWidget {
           }
           return SizedBox.expand(
             child: AnimatedSwitcher(
-                duration: kThemeAnimationDuration,
+                duration: const Duration(milliseconds: 800),
                 child: snap.hasData
                     ? SizedBox.expand(
                         child: Image(
