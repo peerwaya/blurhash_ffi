@@ -172,9 +172,9 @@ class BlurhashBackground extends StatelessWidget {
             return errorBuilder!(ctx, snap.error!, StackTrace.current);
           }
           return SizedBox.expand(
-            child: AnimatedCrossFade(
+            child: AnimatedSwitcher(
               duration: kThemeAnimationDuration,
-              firstChild: snap.hasData
+              child: snap.hasData
                   ? SizedBox.expand(
                       child: Image(
                         image: UiImage(snap.data!),
@@ -182,15 +182,28 @@ class BlurhashBackground extends StatelessWidget {
                         errorBuilder: errorBuilder,
                       ),
                     )
-                  : const SizedBox.shrink(),
-              secondChild: SizedBox.expand(
-                child: Container(
-                  color: color,
-                ),
-              ),
-              crossFadeState: snap.hasData
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
+                  : SizedBox.expand(
+                      child: Container(
+                        color: color,
+                      ),
+                    ),
+              // firstChild: snap.hasData
+              //     ? SizedBox.expand(
+              //         child: Image(
+              //           image: UiImage(snap.data!),
+              //           fit: fit,
+              //           errorBuilder: errorBuilder,
+              //         ),
+              //       )
+              //     : const SizedBox.shrink(),
+              // secondChild: SizedBox.expand(
+              //   child: Container(
+              //     color: color,
+              //   ),
+              // ),
+              // crossFadeState: snap.hasData
+              //     ? CrossFadeState.showFirst
+              //     : CrossFadeState.showSecond,
             ),
           );
         });
