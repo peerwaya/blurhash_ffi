@@ -104,6 +104,21 @@ class BlurhashFFI {
     }
   }
 
+  static Future<Uint8List> decodeBytes(
+    String blurhash, {
+    int width = 32,
+    int height = 32,
+    int punch = 1,
+  }) async {
+    try {
+      return _instance._blurHashDecodeImageBytes(
+          blurhash, width, height, punch);
+    } catch (e) {
+      throw BlurhashFFIException(
+          'Could not decode Image', StackTrace.current, e);
+    }
+  }
+
   bool _isValidBlurHash(String blurHash) {
     Pointer<Utf8> bhptr = blurHash.toNativeUtf8();
     bool result = _bindings.isValidBlurhash(bhptr.cast<Char>());
@@ -220,6 +235,13 @@ class BlurhashFFI {
     }
 
     return completer.future;
+  }
+
+  Future<Uint8List> _blurHashDecodeImageBytes(
+      String hash, int width, int height, int punch) async {
+    _validateBlurhash(hash);
+    final pixels = await _decodeBlurHash(hash, width, height, punch, 4);
+    return pixels;
   }
 
   void _validateBlurhash(String hash) {

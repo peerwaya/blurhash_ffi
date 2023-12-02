@@ -173,16 +173,7 @@ class BlurhashBackground extends StatelessWidget {
           }
           return SizedBox.expand(
             child: AnimatedCrossFade(
-              duration: const Duration(milliseconds: 1000),
-              // child: snap.hasData
-              //     ? SizedBox.expand(
-              //         child: Image(
-              //           image: UiImage(snap.data!),
-              //           fit: fit,
-              //           errorBuilder: errorBuilder,
-              //         ),
-              //       )
-              //     : const SizedBox.shrink()
+              duration: const Duration(milliseconds: 800),
               firstChild: snap.hasData
                   ? SizedBox.expand(
                       child: Image(
